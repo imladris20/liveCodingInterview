@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 function App() {
-  const [house, setHouse] = useState();
+  const [houses, setHouses] = useState([]);
 
   useEffect(() => {
     const getHouses = async () => {
@@ -9,10 +9,8 @@ function App() {
 
       const data = await res.json();
 
-      console.log(data);
-
       if (data.length > 0) {
-        setHouse(data[0]);
+        setHouses(data);
       }
     };
 
@@ -39,23 +37,26 @@ function App() {
         </div>
       </section>
       <section className="houseList ml-10 mt-3">
-        {house && (
-          <div className="w-1/3 rounded-3xl bg-violet-100 pb-6">
-            <img
-              src={house.photo}
-              className="h-64 w-full rounded-t-3xl object-cover"
-            ></img>
-            <h1 className="ml-3 mt-3 text-lg font-bold text-violet-700">
-              {house.name}
-            </h1>
-            <div className="flex flex-row items-center ml-3 gap-3 mt-2">
-              <img className="h-5" src="location-pin.svg"></img>
-              <h1 className="text-violet-700">
-                {house.city}, {house.state}
-              </h1>
-            </div>
-          </div>
-        )}
+        {houses.length > 0 &&
+          houses.map((house, index) => {
+            return (
+              <div className="w-1/3 rounded-3xl bg-violet-100 pb-6" key={index}>
+                <img
+                  src={house.photo}
+                  className="h-64 w-full rounded-t-3xl object-cover"
+                ></img>
+                <h1 className="ml-3 mt-3 text-lg font-bold text-violet-700">
+                  {house.name}
+                </h1>
+                <div className="ml-3 mt-2 flex flex-row items-center gap-3">
+                  <img className="h-5" src="location-pin.svg"></img>
+                  <h1 className="text-violet-700">
+                    {house.city}, {house.state}
+                  </h1>
+                </div>
+              </div>
+            );
+          })}
       </section>
     </>
   );
