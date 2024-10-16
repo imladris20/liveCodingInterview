@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import House from "./House";
 
 function App() {
   const [houses, setHouses] = useState([]);
@@ -36,27 +37,9 @@ function App() {
           </button>
         </div>
       </section>
-      <section className="houseList ml-10 mt-3">
+      <section className="houseList ml-10 mt-8 flex flex-row flex-wrap gap-6">
         {houses.length > 0 &&
-          houses.map((house, index) => {
-            return (
-              <div className="w-1/3 rounded-3xl bg-violet-100 pb-6" key={index}>
-                <img
-                  src={house.photo}
-                  className="h-64 w-full rounded-t-3xl object-cover"
-                ></img>
-                <h1 className="ml-3 mt-3 text-lg font-bold text-violet-700">
-                  {house.name}
-                </h1>
-                <div className="ml-3 mt-2 flex flex-row items-center gap-3">
-                  <img className="h-5" src="location-pin.svg"></img>
-                  <h1 className="text-violet-700">
-                    {house.city}, {house.state}
-                  </h1>
-                </div>
-              </div>
-            );
-          })}
+          houses.map((house) => <House house={house} key={house.id} />)}
       </section>
     </>
   );
