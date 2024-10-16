@@ -1,6 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [house, setHouse] = useState();
+
   useEffect(() => {
     const getHouses = async () => {
       const res = await fetch("http://localhost:3000/houses");
@@ -8,6 +10,10 @@ function App() {
       const data = await res.json();
 
       console.log(data);
+
+      if (data.length > 0) {
+        setHouse(data[0]);
+      }
     };
 
     getHouses();
@@ -16,10 +22,10 @@ function App() {
   return (
     <>
       <header>
-        <img src="logo.svg" alt="home logo" className="ml-3 mt-3" />
+        <img src="logo.svg" alt="home logo" className="ml-10 mt-5" />
       </header>
-      <section className="searchArea ml-3 mt-3">
-        <div className="flex-row">
+      <section className="searchArea ml-10 mt-3">
+        <div className="flex flex-row">
           <input
             type="text"
             className="w-1/3 rounded-lg border border-solid border-violet-400 p-2 text-slate-800 focus:border-violet-700 focus-visible:border-violet-700"
@@ -31,6 +37,25 @@ function App() {
             篩選
           </button>
         </div>
+      </section>
+      <section className="houseList ml-10 mt-3">
+        {house && (
+          <div className="w-1/3 rounded-3xl bg-violet-100 pb-6">
+            <img
+              src={house.photo}
+              className="h-64 w-full rounded-t-3xl object-cover"
+            ></img>
+            <h1 className="ml-3 mt-3 text-lg font-bold text-violet-700">
+              {house.name}
+            </h1>
+            <div className="flex flex-row items-center ml-3 gap-3 mt-2">
+              <img className="h-5" src="location-pin.svg"></img>
+              <h1 className="text-violet-700">
+                {house.city}, {house.state}
+              </h1>
+            </div>
+          </div>
+        )}
       </section>
     </>
   );
