@@ -3,6 +3,25 @@ import House from "./House";
 
 const Home = () => {
   const [houses, setHouses] = useState([]);
+  const [allHouses, setAllHouses] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
+
+  const handleInsertValue = (e) => {
+    setSearchValue(e.target.value);
+    if (!e.target.value) {
+      setHouses([...allHouses]);
+    }
+  };
+
+  const handleFilterBtnClicked = () => {
+    const filteredHouses = allHouses.filter(
+      (house) =>
+        house.name.toLowerCase().includes(searchValue.toLocaleLowerCase()) ||
+        house.city.toLowerCase().includes(searchValue.toLocaleLowerCase()),
+    );
+
+    setHouses(filteredHouses);
+  };
 
   useEffect(() => {
     const getHouses = async () => {
@@ -11,6 +30,7 @@ const Home = () => {
       const data = await res.json();
 
       if (data.length > 0) {
+        setAllHouses(data);
         setHouses(data);
       }
     };
@@ -25,10 +45,13 @@ const Home = () => {
           <input
             type="text"
             className="w-1/3 rounded-lg border border-solid border-violet-400 p-2 text-slate-800 focus:border-violet-700 focus-visible:border-violet-700"
+            value={searchValue}
+            onChange={(e) => handleInsertValue(e)}
           />
           <button
             type="button"
             className="ml-2 rounded-lg bg-violet-400 p-2 text-white transition-colors duration-200 ease-in-out hover:bg-violet-300"
+            onClick={handleFilterBtnClicked}
           >
             篩選
           </button>
