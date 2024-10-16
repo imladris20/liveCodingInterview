@@ -20,9 +20,6 @@ const Home = () => {
 
   return (
     <>
-      <header>
-        <img src="logo.svg" alt="home logo" className="ml-10 mt-5" />
-      </header>
       <section className="searchArea ml-10 mt-3">
         <div className="flex flex-row">
           <input
